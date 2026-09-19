@@ -15,11 +15,13 @@ Contiene la lógica autocontenida para la generación del archivo binario y las 
 
 ### El archivo implementa las siguientes funciones principales:
 
-* crear_matriz_optimizada(): Genera el archivo binario en disco (matriz_estructurada_100k.bin) de ~1.25 GB mediante ftruncate y mapeo de memoria virtual (mmap). Aplica bitpacking para almacenar 8 celdas por byte.
+* crear_matriz_optimizada(): Genera el archivo binario en disco (matriz_estructurada_100k.bin) de ~1.25 GB mediante ftruncate y mapeo de memoria virtual (mmap). Aplica bitpacking para almacenar 8 celdas por byte. además cada 100000 bits pone el marcador (0xFF).
 * leer_dato_especifico(fila, col): Accede a un bit individual en cualquier posición de la matriz calculando el offset exacto y aplicando operaciones a nivel de bit.
 * cargar_fila_entera_y_verificar(fila): Lee una fila específica y valida la estructura de control compuesta por el Header 1 (ID de fila), Header 2 (Total de columnas) y el delimitador de cierre (0xFF).
 * cargar_columna_entera(columna_deseada): Realiza un barrido vertical a través de las 100,000 filas para extraer los datos de una columna específica.
 ### Archivos Generados en Ejecuciónmatriz_estructurada_100k.bin
+
+el archivo no se carga completo, lo primero que se hace es mirar los Header, el de las filas y el de las columnas, luego solo ignora los bits hasta llegar a la posicion y carga en la ram desde esa posicion.
 
 Archivo binario creado automáticamente al ejecutar el programa. Representa la matriz estructurada en disco con una arquitectura por registro de 12,509 bytes por fila:
 
